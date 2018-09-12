@@ -1,0 +1,31 @@
+{
+	"head_text":"Welcome to ENH1-NP Cluster",
+	"subhead_text":"protoDUNE / DUNE",
+	"button_subhead_text":"Cluster monitoring",
+
+
+	"left_menu_title":"EHN1-NP Cluster",
+	"left_menu_items": ["Cluster monitoring","protoDUNE/DUNE"],
+
+
+	"detail_project_title":"Computing infraestructure for:",
+	"detail_project_subtitle":"protoDune / DUNE",
+	"detail_project_test":"content/detail.md",
+
+
+
+	"authors":"Nektarios Benekos, Manuel Parra-Royon and Agathangelos Stylianidis",
+	"copyright_text":"Copyright © CERN 2018.",
+
+
+	"racks":12,
+	"nodes_rack":25,
+	"nodes_prefix":"np-cmp-"
+
+
+
+
+
+}
+
+

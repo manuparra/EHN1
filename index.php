@@ -1,3 +1,12 @@
+<?php 
+
+include_once("classes/Main.class.php");
+
+$webpage = new Page($contentconfig="configuration.json");
+$monit =   new Monitoring($contentconfig="configuration.json")
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title></title>
+    <title><?php echo $webpage->head_text; ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -21,6 +30,8 @@
     <!-- Custom CSS -->
     <link href="css/stylish-portfolio.min.css" rel="stylesheet">
 
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
   </head>
 
   <body id="page-top">
@@ -32,13 +43,13 @@
     <nav id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <li class="sidebar-brand">
-          <a class="js-scroll-trigger" href="#page-top">EHN1-NP Cluster</a>
+          <a class="js-scroll-trigger" href="#page-top"><?php echo $webpage->left_menu_title; ?></a>
         </li>      
         <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#about">Cluster monitoring</a>
+          <a class="js-scroll-trigger" href="#about"><?php echo $webpage->left_menu_items[0]; ?></a>
         </li>
         <li class="sidebar-nav-item">
-          <a class="js-scroll-trigger" href="#services">protoDUNE/DUNE</a>
+          <a class="js-scroll-trigger" href="#services"><?php echo $webpage->left_menu_items[1]; ?></a>
         </li>
       </ul>
     </nav>
@@ -46,11 +57,11 @@
     <!-- Header -->
     <header class="masthead d-flex">
       <div class="container text-center my-auto">
-        <h1 class="mb-1">Welcome to ENH1-NP Cluster</h1>
+        <h1 class="mb-1"><?php echo $webpage->head_text; ?></h1>
         <h3 class="mb-5">
-          <em>protoDUNE / DUNE</em>
+          <em><?php echo $webpage->subhead_text; ?></em>
         </h3>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Cluster Monitoring</a>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about"><?php echo $webpage->button_subhead_text; ?></a>
       </div>
       <div class="overlay"></div>
     </header>
@@ -59,13 +70,122 @@
     <section class="content-section bg-light" id="about">
       <div class="container text-center">
         <div class="row">
-          <div class="col-lg-10 mx-auto">
+          <div class="col-md-6 mx-auto">
+             <h4>CPU percent</h4>
+            <div id="myDiv1"></div>
+            <script>
+          
+            <?php
+
+            $monit->example_heatmap();
+
+            ?>
+
+            var trace1 = {
+  x: [1, 2, 3, 4],
+  y: [10, 15, 13, 17],
+  type: 'scatter'
+};
+
+var trace2 = {
+  x: [1, 2, 3, 4],
+  y: [16, 5, 11, 9],
+  type: 'scatter'
+};
+
+var data = [trace1, trace2];
+
+var layout = {
+  title: '',
+  annotations: [],
+  xaxis: {
+    ticks: '',
+    autosize: false
+  },
+  yaxis: {
+    ticks: '',
+    ticksuffix: ' ',
+    autosize: false
+  },
+  margin: {
+    l: 50,
+    r: 0,
+    b: 0,
+    t: 50,
+    pad: 4
+  },
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor: 'rgba(0,0,0,0)'
+};
+
+Plotly.newPlot('myDiv1', data,layout);
+            </script>
+            <!--
             <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
             <p class="lead mb-5">This theme features a flexible, UX friendly sidebar menu and stock photos from our friends at
               <a href="https://unsplash.com/">Unsplash</a>!</p>
             <a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">What We Offer</a>
+          -->
           </div>
+
+<div class="col-md-6 mx-auto">
+             <h4>General status ENH1 cluster</h4>
+            <div id="myDiv"></div>
+            <script>
+          
+            <?php
+
+            $monit->example_heatmap();
+
+            ?>
+
+            var data = [
+                {
+                  z: [[0,1,1,0,1,1,1,1,1,1,1],[0,0,1,0,1,1,0,1,0,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1],[0,1,1,0,1,1,1,1,1,1,1]],
+                  x: ['Rack 01', 'Rack 02', 'Rack 03','Rack 04','Rack 05','Rack 06','Rack 07','Rack 08','Rack 09','Rack 10','Rack 11'],
+                  y: ['N1','N2','N3','N4','N5','N6','N7','N8','N9','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24'],
+                  type: 'heatmap',
+                  showscale: false,
+                  colorscale: [[0, '#B03060'],[1, '#3CB371']],
+                }
+              ];
+
+var layout = {
+  title: '',
+  annotations: [],
+  xaxis: {
+    ticks: '',
+    side: 'top'
+  },
+  yaxis: {
+    ticks: '',
+    ticksuffix: ' ',
+    width: 700,
+    height: 700,
+    autosize: false
+  },
+  margin: {
+    l: 50,
+    r: 0,
+    b: 0,
+    t: 50,
+    pad: 4
+  },
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor: 'rgba(0,0,0,0)'
+};
+
+            Plotly.newPlot('myDiv', data,layout);
+            </script>
+            <!--
+            <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
+            <p class="lead mb-5">This theme features a flexible, UX friendly sidebar menu and stock photos from our friends at
+              <a href="https://unsplash.com/">Unsplash</a>!</p>
+            <a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">What We Offer</a>
+          -->
+  
         </div>
+
       </div>
     </section>
 
@@ -73,23 +193,19 @@
     <section class="content-section bg-primary text-white text-center" id="services">
       <div class="container">
         <div class="content-section-heading">
-          <h3 class="text-secondary mb-0">Computing infraestructure for: </h3>
-          <h2 class="mb-5">protoDune / DUNE</h2>
+          <h3 class="text-secondary mb-0"><?php echo $webpage->detail_project_title; ?></h3>
+          <h2 class="mb-5"><?php echo $webpage->detail_project_subtitle; ?></h2>
         </div>
         <div class="row">
-          <div class="col-lg-12 col-md-12 mb-5 mb-lg-0">
-            <p style="text-align:justify" class="text-faded mb-0">p3s stands for the ProtoDUNE Prompt Processing System.
+          <div style="text-align:justify"  class="col-lg-12 col-md-12 mb-5 mb-lg-0">
+            <p class="text-faded mb-0">
 
-It was initially developed as a lightweight and easy-to-deploy tool for managing prompt processing workflows in the protoDUNE experiment at CERN. However, p3s does not contain any special logic or dependency related specifically to protoDUNE. It is content-agnostic and can be utilized for many other purposes.
+                <?php echo $webpage->detail_extended(); ?>
 
-The design of p3s was inspired by pilot-based frameworks such as PanDA and Dirac, but p3s is a clean sheet development and prioritizes simplicity and component reuse over most other factors.</p>
+            </p>
           </div>          
       </div>
     </section>
-
-    
-
-    
 
     <!-- Footer -->
     <footer class="footer text-center">
@@ -113,8 +229,9 @@ The design of p3s was inspired by pilot-based frameworks such as PanDA and Dirac
           </li>
         </ul>
 
-
-        <p class="text-muted small mb-0">Copyright &copy; CERN 2018</p>
+    
+        <p class="text-muted small mb-0"><?php echo $webpage->authors; ?> | <?php echo $webpage->copyright_text; ?> </p>
+     
       </div>
     </footer>
 
