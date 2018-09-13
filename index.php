@@ -2,8 +2,19 @@
 
 include_once("classes/Main.class.php");
 
+$node=$_GET['node'];
+
+
 $webpage = new Page($contentconfig="configuration.json");
-$monit =   new Monitoring($contentconfig="configuration.json")
+$monit =   new Monitoring($contentconfig="configuration.json");
+$stats =   new GetStats  ($contentconfig="configuration.json",
+                        $TOKEN="eyJrIjoiU0lyaVZHejg3c2VsQXdjYUE5d3UwbW9HaG96NEg1bDAiLCJuIjoiV0VCLUlOVEVSRkFDRSIsImlkIjozNH0=",
+                        $APIURL="https://monit-grafana.cern.ch/api/datasources",
+						$node=$node);
+	
+
+
+
 
 ?>
 
@@ -30,7 +41,7 @@ $monit =   new Monitoring($contentconfig="configuration.json")
     <!-- Custom CSS -->
     <link href="css/stylish-portfolio.min.css" rel="stylesheet">
 
-      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   </head>
 
@@ -67,68 +78,113 @@ $monit =   new Monitoring($contentconfig="configuration.json")
     </header>
 
     <!-- About -->
-    <section class="content-section bg-light" id="about">
+    <section style="padding-top: 2.5rem;" class="content-section bg-light" id="about">
+        <div class="container text-center">
+          <div class="row">
+			  <div class="col-md-6 mx-auto">
+			 	 <h3><span class="badge badge-primary"><?php echo "Node: ".$node;?>.cern.ch</span></h3>
+			 </div>
+			 <div class="col-md-6 mx-auto">
+				 <h3><span class="badge badge-info"><span id="temp_external">ºC</span> <span class="badge badge-info"><span id="temp_internal">ºC</span></span></h3>
+			 </div>							  
+		  </div>
+		</div>
       <div class="container text-center">
-        <div class="row">
-          <div class="col-md-6 mx-auto">
-             <h4>CPU percent</h4>
-            <div id="myDiv1"></div>
+        <div class="row">	
+          <div class="col-md-12 mx-auto">
+             <h5>CPU percent</h5>
+            <div id="CPU"></div>
             <script>
-          
-            <?php
-
-            $monit->example_heatmap();
-
-            ?>
-
-            var trace1 = {
-  x: [1, 2, 3, 4],
-  y: [10, 15, 13, 17],
-  type: 'scatter'
-};
-
-var trace2 = {
-  x: [1, 2, 3, 4],
-  y: [16, 5, 11, 9],
-  type: 'scatter'
-};
-
-var data = [trace1, trace2];
-
-var layout = {
-  title: '',
-  annotations: [],
-  xaxis: {
-    ticks: '',
-    autosize: false
-  },
-  yaxis: {
-    ticks: '',
-    ticksuffix: ' ',
-    autosize: false
-  },
-  margin: {
-    l: 50,
-    r: 0,
-    b: 0,
-    t: 50,
-    pad: 4
-  },
-  paper_bgcolor: 'rgba(0,0,0,0)',
-  plot_bgcolor: 'rgba(0,0,0,0)'
-};
-
-Plotly.newPlot('myDiv1', data,layout);
+            <?php echo $stats->_getCPU(); ?>
+				var layout = {
+					title: '',
+					 height: 210,
+					annotations: [],
+					margin: {
+						l: 50,
+						r: 0,
+						b: 50,
+						t: 20,
+						pad: 4
+  				  },
+				  paper_bgcolor: 'rgba(0,0,0,0)', 
+				  plot_bgcolor: 'rgba(0,0,0,0)'
+			  	};
+				Plotly.newPlot('CPU', data,layout);
             </script>
-            <!--
-            <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
-            <p class="lead mb-5">This theme features a flexible, UX friendly sidebar menu and stock photos from our friends at
-              <a href="https://unsplash.com/">Unsplash</a>!</p>
-            <a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">What We Offer</a>
-          -->
           </div>
+		  
+          <div class="col-md-12 mx-auto">
+             <h5>Network performance</h5>
+            <div id="Network"></div>
+            <script>
+            <?php echo $stats->_getNETWORK(); ?>
+				var layout = {
+					title: '',
+					height: 200,
+					annotations: [],
+					margin: {
+						l: 50,
+						r: 0,
+						b: 50,
+						t: 20,
+						pad: 4
+  				  },
+				  paper_bgcolor: 'rgba(0,0,0,0)', 
+				  plot_bgcolor: 'rgba(0,0,0,0)'
+			  	};
+				Plotly.newPlot('Network', data,layout);
+            </script>
+          </div>
+		  
+          <div class="col-md-12 mx-auto">
+             <h5>System Load</h5>
+            <div id="SystemLoad"></div>
+            <script>
+            <?php echo $stats->_getSYSLOAD(); ?>
+				var layout = {
+					title: '',
+					height: 200,
+					annotations: [],
+					margin: {
+						l: 50,
+						r: 0,
+						b: 50,
+						t: 20,
+						pad: 4
+  				  },
+				  paper_bgcolor: 'rgba(0,0,0,0)', 
+				  plot_bgcolor: 'rgba(0,0,0,0)'
+			  	};
+				Plotly.newPlot('SystemLoad', data,layout);
+            </script>
+          </div>
+		  
+          <div class="col-md-12 mx-auto">
+             <h5>Node Temperature</h5>
+            <div id="NodeTemp"></div>
+            <script>
+            <?php echo $stats->_getNODETEMP(); ?>
+				var layout = {
+					title: '',
+					height: 200,
+					annotations: [],
+					margin: {
+						l: 50,
+						r: 0,
+						b: 50,
+						t: 20,
+						pad: 4
+  				  },
+				  paper_bgcolor: 'rgba(0,0,0,0)', 
+				  plot_bgcolor: 'rgba(0,0,0,0)'
+			  	};
+				Plotly.newPlot('NodeTemp', data,layout);
+            </script>
+          </div>
+		  
 
-<div class="col-md-6 mx-auto">
+		<div class="col-md-6 mx-auto">
              <h4>General status ENH1 cluster</h4>
             <div id="myDiv"></div>
             <script>
@@ -249,6 +305,20 @@ var layout = {
 
     <!-- Custom scripts for this template -->
     <script src="js/stylish-portfolio.min.js"></script>
+
+	<script>
+		
+		$( document ).ready(function() {
+		    console.log( "ready!" );
+			var temp_external=d_nodetempexternal.y[d_nodetempexternal.y.lenght-1];
+			var temp_internal=d_nodetemp.y[d_nodetemp.y.lenght-1];
+			
+			$("#temp_external").html(temp_external);
+			$("#temp_internal").html(temp_internal);
+			
+		});
+		
+	</script>
 
   </body>
 

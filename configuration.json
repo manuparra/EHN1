@@ -20,9 +20,39 @@
 
 	"racks":12,
 	"nodes_rack":25,
-	"nodes_prefix":"np-cmp-"
-
-
+	"nodes_prefix":"np-cmp-",
+	
+	
+	"template_nodes":
+	{
+		"cpu": {
+			"id":"8833",
+			"q":"",
+			"db": "monit_production_collectd"
+		},
+		
+		"network": {
+			"id":"8836",
+			"q":"SELECT sum('mean_value') FROM ''.'interface_if_octets' WHERE ('submitter_hostgroup' =~ /^npcmp\/worker$/ AND 'host' =~ /^np-cmp-0411.cern.ch$/ AND 'submitter_environment' =~ /^npcmp_master$/) AND time >= now() - 3h GROUP BY time(5m), 'value_instance'",
+			"db":"monit_production_collectd"
+		},
+		"sysload": {
+			"id":"8837",
+			"q":"SELECT mean('mean_value') FROM ''.'load' WHERE ('submitter_hostgroup' =~ /^npcmp\/worker$/ AND 'host' =~ /^np-cmp-0411.cern.ch$/ AND 'submitter_environment' =~ /^npcmp_master$/) AND time >= now() - 3h GROUP BY time(5m), 'value_instance' fill(null)",
+			"db": "monit_production_collectd"
+		},
+		"uptime": {
+			"id":"8847",
+			"q":"SELECT mean('mean_value') FROM ''.'uptime' WHERE ('submitter_hostgroup' =~ /^npcmp\/worker$/ AND 'host' =~ /^np-cmp-0411.cern.ch$/ AND 'submitter_environment' =~ /^npcmp_master$/) AND time >= now() - 12h GROUP BY time(5m) fill(null)",
+			"db": "monit_production_collectd"
+		},
+		"node_temperature": {
+			"id":"8859",
+			"q":"",
+			"db": "monit_production_neutrino"
+		}
+		
+	}
 
 
 
