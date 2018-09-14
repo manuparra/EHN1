@@ -43,7 +43,7 @@
 		},
 		"uptime": {
 			"id":"8847",
-			"q":"SELECT mean('mean_value') FROM ''.'uptime' WHERE ('submitter_hostgroup' =~ /^npcmp\/worker$/ AND 'host' =~ /^np-cmp-0411.cern.ch$/ AND 'submitter_environment' =~ /^npcmp_master$/) AND time >= now() - 12h GROUP BY time(5m) fill(null)",
+			"q":"",
 			"db": "monit_production_collectd"
 		},
 		"node_temperature": {
